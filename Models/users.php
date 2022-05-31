@@ -93,7 +93,7 @@ function createUser(array $data)
 
     // パスワードチェック、不一致の場合->return
     if (!password_verify($password, $user['password'])) {
-        $mysqli->close;
+        $mysqli->close();
         return false;
     }
 
