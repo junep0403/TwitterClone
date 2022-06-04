@@ -38,7 +38,7 @@ $(function () {
                 alert('処理中にエラーが発生しました。');
                 console.log(data);
             });
-        }else{
+        } else {
             // いいね！付与
             // 非同期通信
             $.ajax({
