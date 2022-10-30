@@ -15,12 +15,12 @@ include_once '../Models/notifications.php';
 $user = getUserSession();
 if (!$user) {
     // ログインしていない
-    header('Location:  ' . HOME_URL . 'Controllers/sign-in.php');
+    header('Location: ' . HOME_URL . 'Controllers/sign-in.php');
     exit;
 }
+
 // 表示用の変数
 $view_user = $user;
-
 // 通知一覧
 $view_notifications = findNotifications($user['id']);
 

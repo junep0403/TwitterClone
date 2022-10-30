@@ -45,7 +45,7 @@ $(function () {
                     url: 'like.php',
                     type: 'POST',
                     data: {
-                        'like_id': like_id
+                        'tweet_id': tweet_id
                     },
                     timeout: 10000
             })
