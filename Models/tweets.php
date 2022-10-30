@@ -33,14 +33,59 @@ function createTweet(array $data)
     if ($response === false) {
         echo 'エラーメッセージ：' . $mysqli->error . "\n";
     }
- 
+
     // DB接続を解放
     $statement->close();
     $mysqli->close();
- 
+
     return $response;
 }
- 
+
+/**
+    * ツイート一件を取得
+    *
+    * @param int $tweet_id
+    * @return array|false
+    */
+    function findTweet(int $tweet_id)
+    {
+        // DB接続
+        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        // 接続エラーがある場合->処理停止
+        if ($mysqli->connect_errno) {
+            echo 'MySQLの接続に失敗しました。：' . $mysqli->connect_error . "\n";
+            exit;
+        }
+    
+        // エスケープ
+        $tweet_id = $mysqli->real_escape_string($tweet_id);
+
+        //----------------------
+        // クエリを作成
+        //----------------------
+        $query = 'SELECT * FROM tweets WHERE status = "active" AND id = "' . $tweet_id . '"';
+
+         //---------------------
+         // 戻り値を作成
+         //---------------------
+        if ($result = $mysqli->query($query)) {
+            // データ１件を取得
+            $response = $result->fetch_array(MYSQLI_ASSOC);
+        } else {
+            $response = false;
+            echo 'エラーメッセージ: ' . $mysqli->error . "\n";
+        }
+
+        //------------------------
+        // 後処理
+        //------------------------
+        // DB接続を開放
+        $mysqli->close();
+
+        return $response;
+    }
+
+
 /**
     * ツイート一覧を取得
     *
@@ -55,13 +100,13 @@ function findTweets(array $user, string $keyword = null, array $user_ids = null)
     $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     // 接続エラーがある場合->処理停止
     if ($mysqli->connect_errno) {
-        echo 'MySQLの接続に失敗しました。：' . $mysqli->connect_error . "\n";
+        echo 'MySQLの接続に失敗しました。:' . $mysqli->connect_error . "\n";
         exit;
     }
- 
+
     // ログインユーザーIDをエスケープ
     $login_user_id = $mysqli->real_escape_string($user['id']);
- 
+
     // 検索のSQLクエリを作成
     $query = <<<SQL
         SELECT
