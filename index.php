@@ -1,2 +1,2 @@
 <?php
-include_once 'Controllers/home.php';
+include_once 'index.html';
